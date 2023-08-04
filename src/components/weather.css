@@ -24,6 +24,9 @@
     border: none;
     border-bottom: 2px dashed rgb(2, 57, 88);
     margin-right: 10px;
+    font-size: 1.5em;
+    width: 8em;
+    text-transform: uppercase;
   }
   
   .weather form input:focus {
@@ -54,5 +57,6 @@
 
   .error {
     color: red;
+    font-size: 1.2em;
     margin: 20px auto;
   }

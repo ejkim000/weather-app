@@ -35,7 +35,7 @@ function Weather() {
         //     .catch(error => console.log('error is', error));
 
         if (form.city === '') {
-            alert('Enter City');
+            setErr('Enter City Name.');
         } else {
 
             await fetch(url)
@@ -43,9 +43,7 @@ function Weather() {
                 .then((data) => {
 
                     if (data.cod === 200) {
-                        setWeather({
-                            data: data
-                        });
+                        setWeather({data: data});
                         setErr('');
                     } else {
                         const err_msg = `An error has occured: ${data.cod} - ${data.message}`;
@@ -86,7 +84,7 @@ function Weather() {
             </div>
 
             {
-                weather.data != undefined ? (
+                weather.data ? (
                     <div>
                         <DisplayWeather data={weather.data} />
                     </div>
