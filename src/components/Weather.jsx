@@ -12,32 +12,50 @@ function Weather() {
     });
 
     const [weather, setWeather] = useState({});
+    const [err, setErr] = useState();
 
     async function weatherData(e) {
+
         e.preventDefault();
+
+        const url = `https://api.openweathermap.org/data/2.5/weather?q=${form.city},${form.country}&appid=${APIKEY}`;
+
+
+        // fetch(url)
+        //     .then(response => {
+        //         if (response.ok) {
+        //             return response.json()
+        //         } else if (response.status === 404) {
+        //             return Promise.reject('error 404')
+        //         } else {
+        //             return Promise.reject('some other error: ' + response.status)
+        //         }
+        //     })
+        //     .then(data => console.log('data is', data))
+        //     .catch(error => console.log('error is', error));
 
         if (form.city === '') {
             alert('Enter City');
         } else {
-            try {
-                const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${form.city},${form.country}&appid=${APIKEY}`);
 
-                if (!res.ok) {
-                    const message = `An error has occured: ${res.status}`;
-                    throw new Error(message);
-                } else {
-                    const data = await res.json();
+            await fetch(url)
+                .then((res) => res.json())
+                .then((data) => {
 
-                    setWeather({
-                        data: data
-                    });
-                }
-
-                
-
-            } catch (error) {
-                console.log(error);
-            }
+                    if (data.cod === 200) {
+                        setWeather({
+                            data: data
+                        });
+                        setErr('');
+                    } else {
+                        const err_msg = `An error has occured: ${data.cod} - ${data.message}`;
+                        setErr(err_msg);
+                        throw new Error(err_msg);
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
         }
     }
 
@@ -64,8 +82,8 @@ function Weather() {
                     <input type='text' name='country' placeholder='country' onChange={handleChange} />
                     <button className='getweather' onClick={weatherData}>Submit</button>
                 </form>
+                <div className='error'>{err}</div>
             </div>
-
 
             {
                 weather.data != undefined ? (

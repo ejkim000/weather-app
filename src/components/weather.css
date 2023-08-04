@@ -51,3 +51,8 @@
   .weather .getweather:focus {
     outline: none;
   }
+
+  .error {
+    color: red;
+    margin: 20px auto;
+  }
